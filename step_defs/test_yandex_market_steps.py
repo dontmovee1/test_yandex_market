@@ -211,14 +211,20 @@ def change_sorting_to_expensive(browser):
 def click_on_remembered_product(browser):
     try:
         remembered_title = browser.last_product_title
-        logger.info(f"Ищем товар: {remembered_title}")
-        product_element = WebDriverWait(browser, 30).until(
-            EC.presence_of_element_located(
-                (By.XPATH, f"//*[@data-auto='snippet-title'][contains(., '{remembered_title}')]"))
-        )
+        product_xpath = f"//*[@data-auto='snippet-title'][contains(., '{remembered_title}')]"
+        product_element = WebDriverWait(browser, 30).until(EC.presence_of_element_located((By.XPATH, product_xpath)))
         browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", product_element)
-        WebDriverWait(browser, 10).until(EC.element_to_be_clickable(product_element)).click()
+        try:
+            WebDriverWait(browser, 3).until(
+                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'oDwSf')]//button"))
+            ).click()
+        except:
+            pass
 
+
+        WebDriverWait(browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, product_xpath)))
+        browser.execute_script("arguments[0].click();", product_element)
 
     except Exception as e:
         logger.error(f"Ошибка при клике на товар: {e}")
