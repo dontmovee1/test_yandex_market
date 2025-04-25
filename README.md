@@ -1,7 +1,10 @@
+# 1. Создайте виртуальное окружение
+python -m venv venv
 
 # 1.Активация виртуального окружения проекта
 source venv/bin/activate  # Linux/macOS
-   venv\Scripts\activate     # Windows
+
+venv\Scripts\activate     # Windows
 # 2.Установка зависимостей
 pip install -r requirements.txt
 
